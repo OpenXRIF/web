@@ -51,7 +51,7 @@ export function MessageBox() {
     <div
       className={cn(
         "mx-auto w-full max-w-2xl text-left",
-        "flex flex-col gap-4",
+        "flex flex-col gap-4"
       )}
     >
       <form
@@ -89,11 +89,13 @@ export function MessageBox() {
 const LOADING_PHRASES = [
   "Petting the turtles...",
   "Polishing the robots...",
-  "Appeasing the LLM overlords...",
-  "Warming up the quantum computer...",
+  "Pleeding to the LLM overlords...",
   "Feeding the AI...",
-  "Calibrating the flux capacitor...",
   "Charging the hyperdrive...",
+  "Reading white papers...",
+  "Multiplying matrices...",
+  "Ordering more GPUs...",
+  "Appeasing Roko's basilisk...",
 ];
 
 const Loading = () => {
