@@ -27,6 +27,10 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // Background
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
     // Draw grid
     for (let i = 0; i <= rows; i++) {
       for (let j = 0; j <= cols; j++) {
@@ -36,10 +40,10 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
         }
 
         ctx.fillRect(
-          j * squareSize - 1,
-          i * squareSize - 1,
-          squareSize - 1,
-          squareSize - 1
+          j * squareSize + 1,
+          i * squareSize + 1,
+          squareSize - 2,
+          squareSize - 2
         );
       }
     }

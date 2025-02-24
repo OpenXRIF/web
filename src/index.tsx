@@ -1,5 +1,6 @@
 import { serve } from "bun";
 import index from "./index.html";
+import { XRIF_EXAMPLES } from "./examples/xrif";
 
 const server = serve({
   routes: {
@@ -31,7 +32,11 @@ const server = serve({
     "/api/echo": {
       async POST(req) {
         const body = await req.json();
-        return Response.json(body);
+        const { message } = body;
+        const randomIndex = Math.floor(Math.random() * XRIF_EXAMPLES.length);
+        const example = XRIF_EXAMPLES[randomIndex];
+        const result = { ...example, prompt: message };
+        return Response.json(result);
       },
     },
   },
