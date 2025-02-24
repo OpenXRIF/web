@@ -1,0 +1,35 @@
+import "./index.css";
+import { Card, CardContent } from "@/components/ui/card";
+
+import logo from "./logo.svg";
+import { RobotGrid } from "./RobotGrid";
+import { MessageBox } from "./MessageBox";
+
+export function App() {
+  return (
+    <div className="container mx-auto p-8 text-center relative z-10">
+      <div className="flex justify-center items-center gap-8 mb-8">
+        <img
+          src={logo}
+          alt="Bun Logo"
+          className="h-36 p-6 transition-all duration-300 hover:drop-shadow-[0_0_2em_#646cffaa] scale-120"
+        />
+      </div>
+
+      <Card className="bg-card/50 backdrop-blur-sm border-muted">
+        <CardContent className="pt-6">
+          <h1 className="text-5xl font-bold my-4 leading-tight">
+            OpenXRIF Demo
+          </h1>
+          <p>This is a demo project for OpenXRIF.</p>
+          <div className="flex flex-row gap-4 mt-8">
+            <MessageBox />
+            <RobotGrid rows={30} cols={30} />
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+export default App;
