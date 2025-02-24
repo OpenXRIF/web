@@ -1,4 +1,20 @@
-# bun-react-tailwind-shadcn-template
+<!--# bun-react-tailwind-shadcn-template-->
+
+<a id="readme-top"></a>
+<br />
+<div align="center">
+
+  <a href="https://github.com/OpenXRIF/web-demo"><img width="140px" src="./logo.png"></a>
+
+  <h3 align="center">Web Interface</h3>
+
+  <p align="center">
+    Web interface for OpenXRIF services and simulation.
+    <br />
+    <a href="https://openxrif.github.io/docs/"><strong>Explore the docs »</strong></a>
+    <br />
+  </p>
+</div>
 
 To install dependencies:
 
