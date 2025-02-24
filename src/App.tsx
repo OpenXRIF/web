@@ -4,6 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import logo from "./logo.svg";
 import { RobotGrid } from "./RobotGrid";
 import { MessageBox } from "./MessageBox";
+import JsonHighlighter from "./JsonHighlighter";
+import HighlightedTextarea from "./HighlightedLines";
 
 export function App() {
   return (

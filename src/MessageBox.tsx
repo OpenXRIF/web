@@ -2,6 +2,7 @@ import { useState, type FormEvent, Suspense, use, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import JsonHighlighter from "./JsonHighlighter";
 
 const ENDPOINT = "/api/echo";
 const DEFAULT_PROMPT = "Enter a command...";
@@ -79,7 +80,8 @@ export function MessageBox() {
 
       {responsePromise && (
         <Suspense fallback={<Loading />}>
-          <Response promise={responsePromise} />
+          {/* <Response promise={responsePromise} /> */}
+          <JsonHighlighter obj={use(responsePromise)} path="actions" />
         </Suspense>
       )}
     </div>
