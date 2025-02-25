@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 type StoreState = {
-  xrifProfmise: Promise<any> | null;
+  xrifPromise: Promise<any> | null;
   xrifKey: string;
   highlightedAction: number;
 };
@@ -12,7 +12,7 @@ interface StoreFunctions {
 }
 
 const defaultState: StoreState = {
-  xrifProfmise: null,
+  xrifPromise: null,
   xrifKey: "actions.0",
   highlightedAction: 0,
 };
@@ -20,8 +20,8 @@ const defaultState: StoreState = {
 export const useStore = create<StoreState & StoreFunctions>((set) => ({
   ...defaultState,
   getXrif: (message: string) => {
-    const response = fetchEcho(message);
-    set({ xrifProfmise: response });
+    const response = fetchXRIF(message);
+    set({ xrifPromise: response });
   },
   highlightAction: (idx: number) => {
     set({ xrifKey: `actions.${idx}`, highlightedAction: idx });
@@ -30,11 +30,10 @@ export const useStore = create<StoreState & StoreFunctions>((set) => ({
 
 const ENDPOINTS = {
   xrif: "/api/xrif",
-  echo: "/api/echo",
 };
 
-const fetchEcho = (message: string) => {
-  const url = new URL(ENDPOINTS.echo, location.href);
+const fetchXRIF = (message: string) => {
+  const url = new URL(ENDPOINTS.xrif, location.href);
   // Create a promise that fetches the API and parses the JSON.
   const promise = fetch(url, {
     method: "POST",

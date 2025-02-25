@@ -50,6 +50,7 @@ const HighlightedTextarea = ({
         {renderHighlightedText()}
       </div>
       <textarea
+        readOnly
         ref={textAreaRef}
         value={text}
         className="absolute inset-0 w-full h-full p-3 resize-none overflow-auto outline-none leading-[1.5]"

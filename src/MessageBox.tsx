@@ -28,7 +28,7 @@ function Response({ promise }: { promise: Promise<any> }) {
 }
 
 export function MessageBox() {
-  const responsePromise = useStore((state) => state.xrifProfmise);
+  const responsePromise = useStore((state) => state.xrifPromise);
   const xrifKey = useStore((state) => state.xrifKey);
   const fetchXrif = useStore((state) => state.getXrif);
 

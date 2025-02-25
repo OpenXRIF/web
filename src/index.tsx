@@ -29,7 +29,7 @@ const server = serve({
       });
     },
 
-    "/api/echo": {
+    "/api/xrif": {
       async POST(req) {
         const body = await req.json();
         const { message } = body;
