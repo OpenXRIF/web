@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { getHighlightedLines } from "./lib/utils";
+import { getHighlightedLines } from "../lib/utils";
 import HighlightedTextarea from "./HighlightedLines";
 
 type JsonHighlighterProps = {

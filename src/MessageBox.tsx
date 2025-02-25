@@ -2,7 +2,7 @@ import { useState, type FormEvent, Suspense, use, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import JsonHighlighter from "./JsonHighlighter";
+import JsonHighlighter from "./components/JsonHighlighter";
 import { useStore } from "./store";
 
 const DEFAULT_PROMPT = "Enter a command...";

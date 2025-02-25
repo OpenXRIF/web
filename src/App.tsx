@@ -6,7 +6,6 @@ import { RobotGrid } from "./RobotGrid";
 import { MessageBox } from "./MessageBox";
 
 export function App() {
-
   return (
     <div className="container mx-auto p-8 text-center relative z-10">
       <Card className="bg-card/50 backdrop-blur-sm border-muted">
