@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 
 type HighlightedTextareaProps = {
   start: number;
@@ -6,7 +6,11 @@ type HighlightedTextareaProps = {
   text?: string;
 };
 
-const HighlightedTextarea = ({ start, end, text }) => {
+const HighlightedTextarea = ({
+  start,
+  end,
+  text,
+}: HighlightedTextareaProps) => {
   //   const [text, setText] = useState("");
   const textAreaRef = useRef(null);
   const highlightRef = useRef(null);
@@ -38,7 +42,7 @@ const HighlightedTextarea = ({ start, end, text }) => {
   };
 
   return (
-    <div className="relative w-[600px] h-[400px] border border-gray-300 rounded-xl overflow-hidden font-mono">
+    <div className="relative w-full h-full">
       <div
         ref={highlightRef}
         className="absolute inset-0 overflow-hidden p-3 text-transparent pointer-events-none leading-[1.5]"

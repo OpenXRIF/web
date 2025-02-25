@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import JsonHighlighter from "./JsonHighlighter";
+import { useStore } from "./store";
 
-const ENDPOINT = "/api/echo";
 const DEFAULT_PROMPT = "Enter a command...";
 
 // This component will suspend until the promise resolves.
@@ -28,9 +28,9 @@ function Response({ promise }: { promise: Promise<any> }) {
 }
 
 export function MessageBox() {
-  const [responsePromise, setResponsePromise] = useState<Promise<any> | null>(
-    null
-  );
+  const responsePromise = useStore((state) => state.xrifProfmise);
+  const xrifKey = useStore((state) => state.xrifKey);
+  const fetchXrif = useStore((state) => state.getXrif);
 
   const testEndpoint = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,14 +38,8 @@ export function MessageBox() {
     const form = e.currentTarget;
     const formData = new FormData(form);
     const message = formData.get("message") as string;
-    const url = new URL(ENDPOINT, location.href);
-    // Create a promise that fetches the API and parses the JSON.
-    const promise = fetch(url, {
-      method: "POST",
-      body: JSON.stringify({ message }),
-    }).then((res) => res.json());
 
-    setResponsePromise(promise);
+    fetchXrif(message);
   };
 
   return (
@@ -81,7 +75,7 @@ export function MessageBox() {
       {responsePromise && (
         <Suspense fallback={<Loading />}>
           {/* <Response promise={responsePromise} /> */}
-          <JsonHighlighter obj={use(responsePromise)} path="actions" />
+          <JsonHighlighter obj={use(responsePromise)} path={xrifKey} />
         </Suspense>
       )}
     </div>

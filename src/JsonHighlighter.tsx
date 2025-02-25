@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { cn, getHighlightedLines } from "./lib/utils";
+import { getHighlightedLines } from "./lib/utils";
 import HighlightedTextarea from "./HighlightedLines";
 
 type JsonHighlighterProps = {
@@ -14,7 +14,7 @@ type JsonHighlighterProps = {
 };
 
 const JsonHighlighter = ({ obj, path }: JsonHighlighterProps) => {
-  const { start, end, lines, str } = useMemo(() => {
+  const { start, end, str } = useMemo(() => {
     const str = JSON.stringify(obj, null, 2);
     return { ...getHighlightedLines(obj, path), str };
   }, [obj, path]);
