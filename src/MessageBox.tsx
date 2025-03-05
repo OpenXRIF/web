@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import JsonHighlighter from "./components/JsonHighlighter";
-import { useStore } from "./store";
+import { useXrifStore } from "./store";
 
 const DEFAULT_PROMPT = "Enter a command...";
 
@@ -28,9 +28,9 @@ function Response({ promise }: { promise: Promise<any> }) {
 }
 
 export function MessageBox() {
-  const responsePromise = useStore((state) => state.xrifPromise);
-  const xrifKey = useStore((state) => state.xrifKey);
-  const fetchXrif = useStore((state) => state.getXrif);
+  const responsePromise = useXrifStore((state) => state.xrifPromise);
+  const xrifKey = useXrifStore((state) => state.xrifKey);
+  const fetchXrif = useXrifStore((state) => state.getXrif);
 
   const testEndpoint = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

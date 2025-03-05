@@ -42,7 +42,7 @@ const HighlightedTextarea = ({
   };
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full min-h-80 h-full">
       <div
         ref={highlightRef}
         className="absolute inset-0 overflow-hidden p-3 text-transparent pointer-events-none leading-[1.5]"

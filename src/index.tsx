@@ -2,6 +2,8 @@ import { serve } from "bun";
 import index from "./index.html";
 import { XRIF_EXAMPLES } from "./examples/xrif";
 
+const SYNAPSE_URL = "http://127.0.0.1:8080/v1/text_prompt";
+
 const server = serve({
   routes: {
     // Serve index.html for all unmatched routes.
@@ -33,9 +35,19 @@ const server = serve({
       async POST(req) {
         const body = await req.json();
         const { message } = body;
+
         const randomIndex = Math.floor(Math.random() * XRIF_EXAMPLES.length);
         const example = XRIF_EXAMPLES[randomIndex];
         const result = { ...example, prompt: message };
+
+        // const result = await fetch(SYNAPSE_URL, {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({ prompt_format: message }),
+        // }).then((res) => res.json());
+
         return Response.json(result);
       },
     },

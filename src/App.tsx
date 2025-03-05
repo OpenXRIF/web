@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import logo from "./logo.svg";
 import { RobotGrid } from "./RobotGrid";
 import { MessageBox } from "./MessageBox";
+import { Executor } from "./Executor";
 
 export function App() {
   return (
@@ -25,7 +26,8 @@ export function App() {
           {/* <p>This is a demo project for OpenXRIF.</p> */}
           <div className="grid grid-cols-2 gap-4 mt-8">
             <MessageBox />
-            <RobotGrid rows={30} cols={30} />
+            <Executor />
+            {/* <RobotGrid rows={30} cols={30} /> */}
           </div>
         </CardContent>
       </Card>
