@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
 const linesFromNumber = (lines: string[], number: number) => {
     // Get the item at the index from the json string lines
     let inArray = false;

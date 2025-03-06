@@ -5,6 +5,7 @@ import logo from "./logo.svg";
 import { RobotGrid } from "./RobotGrid";
 import { MessageBox } from "./MessageBox";
 import { Executor } from "./Executor";
+import GridDrawer from "./GridDrawer";
 
 export function App() {
   return (
@@ -20,14 +21,15 @@ export function App() {
               />
             </a>
             <h1 className="text-5xl font-bold my-4 leading-tight text-start flex-grow">
-              OpenXRIF Demo
+              OpenXRIF
             </h1>
           </div>
           {/* <p>This is a demo project for OpenXRIF.</p> */}
           <div className="grid grid-cols-2 gap-4 mt-8">
             <MessageBox />
-            <Executor />
+            {/* <Executor /> */}
             {/* <RobotGrid rows={30} cols={30} /> */}
+            <GridDrawer />
           </div>
         </CardContent>
       </Card>
