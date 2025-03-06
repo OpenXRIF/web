@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import JsonHighlighter from "./components/JsonHighlighter";
 import { useXrifStore } from "./store";
+import { Executor } from "./Executor";
 
 const DEFAULT_PROMPT = "Enter a command...";
 
@@ -71,6 +72,8 @@ export function MessageBox() {
           Send
         </Button>
       </form>
+      
+      <Executor />
 
       {responsePromise && (
         <Suspense fallback={<Loading />}>
