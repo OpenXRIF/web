@@ -28,7 +28,7 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
     if (!ctx) return;
 
     // Background
-    ctx.fillStyle = "#fff";
+    ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     // Draw grid
