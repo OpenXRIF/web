@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect, useRef } from "react"
 import { Slider } from "@/components/ui/slider"
 
@@ -8,6 +6,8 @@ export default function GridDrawer() {
   const [grid, setGrid] = useState<boolean[][]>([])
   const [isDrawing, setIsDrawing] = useState(false)
   const gridRef = useRef<HTMLDivElement>(null)
+  const [robotPosition, setRobotPosition] = useState({ x: 0, y: 0 });
+  const [specialNodes, setSpecialNodes] = useState([robotPosition]);
 
   // Initialize grid
   useEffect(() => {
@@ -22,12 +22,14 @@ export default function GridDrawer() {
     setIsDrawing(true)
     const newGrid = [...grid]
     newGrid[rowIndex][colIndex] = !newGrid[rowIndex][colIndex] // Toggle cell state
+    newGrid[robotPosition.x][robotPosition.y] = false
     setGrid(newGrid)
   }
 
   // Continue drawing walls while mouse is down
   const handleMouseOver = (rowIndex: number, colIndex: number) => {
     if (!isDrawing) return
+    if (rowIndex == robotPosition.x && colIndex == robotPosition.y) return
 
     const newGrid = [...grid]
     newGrid[rowIndex][colIndex] = true // Set cell to wall
