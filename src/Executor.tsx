@@ -5,7 +5,7 @@ export const Executor = () => {
 
   return (
     <div>
-      <button onClick={executeAction}>Execute Action</button>
+      <button onClick={executeAction}>Next Action</button>
     </div>
   );
 };

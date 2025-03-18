@@ -31,7 +31,6 @@ type StoreState = {
   xrifValue: XRIF | null;
   xrifKey: string;
   highlightedAction: number;
-  speechBubble: string | null;
   logArray: string[];
 };
 
@@ -47,7 +46,6 @@ const defaultState: StoreState = {
   xrifValue: null,
   xrifKey: "actions.0",
   highlightedAction: 0,
-  speechBubble: null,
   logArray: [],
 };
 
@@ -67,9 +65,8 @@ export const useXrifStore = create<StoreState & StoreFunctions>((set) => ({
     set((state) => {
       state.log(`Fetched XRIF for message: ${message}`);
       return {
+        ...defaultState,
         xrifPromise: response,
-        highlightedAction: 0,
-        xrifKey: "actions.0",
       };
     });
     response.then((xrif) => {
@@ -84,9 +81,6 @@ export const useXrifStore = create<StoreState & StoreFunctions>((set) => ({
   },
   executeAction: () => {
     set((state) => {
-      // Clear robot speach bubble.
-      state.speechBubble = null;
-
       // Reset if past length
       if (state.highlightedAction >= state.xrifValue?.actions.length) {
         // TODO: Set finished condition
@@ -103,16 +97,13 @@ export const useXrifStore = create<StoreState & StoreFunctions>((set) => ({
       // TODO: Execute the action here.
       if (action.action === "speak") {
         state.log(`Speaking: ${action.input}`);
-        state.speechBubble = action.input;
       }
 
       if (action.action === "navigate") {
-        // TODO
         state.log(`Navigating to ${action.input.name}`);
       }
 
       if (action.action === "wait") {
-        // TODO
         state.log(`Waiting for ${action.input} seconds`);
       }
 
