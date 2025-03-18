@@ -6,6 +6,7 @@ import { MessageBox } from "./MessageBox";
 import { Executor } from "./Executor";
 import GridDrawer from "./GridDrawer";
 import SpeechBubble from "./SpeechBubble";
+import { RobotGrid } from "./RobotGrid";
 
 export function App() {
   return (
@@ -32,8 +33,8 @@ export function App() {
                 <Executor />
                 <SpeechBubble />
               </div>
-              {/* <RobotGrid rows={30} cols={30} /> */}
-              <GridDrawer />
+              <RobotGrid rows={30} cols={30} />
+              {/* <GridDrawer /> */}
             </div>
           </div>
         </CardContent>
