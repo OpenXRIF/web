@@ -1,4 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  e7_mapped,
+  IMAGE_CROPPED_X,
+  IMAGE_CROPPED_Y,
+  IMAGE_START_X,
+  IMAGE_START_Y,
+  img,
+} from "./E7";
 
 type Waypoint = {
   name: string;
@@ -16,22 +24,18 @@ type Coordinate = {
   y: number;
 };
 
-const GRID_HEIGHT = 500;
-const GRID_WIDTH = 500;
+const GRID_HEIGHT = 700;
+const GRID_WIDTH = 700;
 
 export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const [robotPosition, setRobotPosition] = useState({ x: 0, y: 0 });
+  const [robotPosition, setRobotPosition] = useState({ x: 10, y: 10 });
   const [isDrawing, setIsDrawing] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
   const [walls, setDrawnCells] = useState<Set<string>>(new Set());
   const [waypoints, setWaypoints] = useState<Map<string, string>>(
-    new Map([
-      ["0,0", "Start"],
-      ["10,0", "Home"],
-      ["10,0", "10,0"],
-    ])
+    new Map(e7_mapped)
   );
   const [path, setPath] = useState<Coordinate[]>([]);
 
@@ -116,39 +120,72 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Background
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#666";
-    ctx.fillRect(0.5, 0.5, canvas.width - 1, canvas.height - 1);
+    // // Background
+    // ctx.fillStyle = "#fff";
+    // ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // ctx.fillStyle = "#666";
+    // ctx.fillRect(0.5, 0.5, canvas.width - 1, canvas.height - 1);
+
+    ctx.font = "12px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "bottom";
+
+    ctx.drawImage(
+      img,
+      IMAGE_START_X,
+      IMAGE_START_Y,
+      IMAGE_CROPPED_X,
+      IMAGE_CROPPED_Y,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
 
     // Draw grid
     for (let y = 0; y < rows; y++) {
       for (let x = 0; x < cols; x++) {
         // Select color based on cell type
-        ctx.fillStyle = "#000"; // background color
-        if (waypoints.has(`${x},${y}`)) {
-          ctx.fillStyle = "#ff0"; // Highlight path cells
+        const waypoint = waypoints.get(`${x},${y}`);
+        if (waypoint) {
+          ctx.fillStyle = "#00F"; // Highlight path cells
+          ctx.fillRect(
+            x * squareSize + 0.5,
+            y * squareSize + 0.5,
+            squareSize - 1,
+            squareSize - 1
+          );
+          ctx.fillText(
+            waypoint,
+            x * squareSize + 0.5 + 0.5 * squareSize,
+            y * squareSize
+          );
         } else if (pathSet.has(`${x},${y}`)) {
-          ctx.fillStyle = "#00f"; // Highlight path cells
+          ctx.fillStyle = "#0F0"; // Highlight path cells
+          ctx.fillRect(
+            x * squareSize + 0.5,
+            y * squareSize + 0.5,
+            squareSize - 1,
+            squareSize - 1
+          );
         } else if (walls.has(`${x},${y}`)) {
-          ctx.fillStyle = "#fff"; // Highlight drawn cells
+          ctx.fillStyle = "#F00"; // Highlight drawn cells
+          ctx.fillRect(
+            x * squareSize + 0.5,
+            y * squareSize + 0.5,
+            squareSize - 1,
+            squareSize - 1
+          );
         }
 
-        ctx.fillRect(
-          x * squareSize + 0.5,
-          y * squareSize + 0.5,
-          squareSize - 1,
-          squareSize - 1
-        );
-
         if (y === robotPosition.y && x === robotPosition.x) {
-          ctx.fillStyle = "#f00"; // Highlight robot position
+          console.log("Drawing robot");
+          ctx.fillStyle = "#F0F"; // Highlight robot position
           ctx.fillRect(
-            x * squareSize + 2,
-            y * squareSize + 2,
-            squareSize - 4,
-            squareSize - 4
+            x * (squareSize - 1),
+            y * (squareSize - 1),
+            squareSize * 2,
+            squareSize * 2
           );
         }
       }
@@ -162,6 +199,8 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp} // Stop drawing if the mouse leaves the canvas
+      className="rounded-md"
     />
+    // <img src={imagepath} alt="E7" className="w-full h-auto" />
   );
 };

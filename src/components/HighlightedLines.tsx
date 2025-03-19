@@ -9,22 +9,39 @@ type HighlightedTextareaProps = {
 const HighlightedTextarea = ({
   start,
   end,
-  text,
+  text = "",
 }: HighlightedTextareaProps) => {
-  //   const [text, setText] = useState("");
-  const textAreaRef = useRef(null);
-  const highlightRef = useRef(null);
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const highlightRef = useRef<HTMLDivElement | null>(null);
 
   const handleScroll = () => {
-    highlightRef.current.scrollTop = textAreaRef.current.scrollTop;
+    if (highlightRef.current && textAreaRef.current) {
+      highlightRef.current.scrollTop = textAreaRef.current.scrollTop;
+    }
   };
 
   useEffect(() => {
-    textAreaRef.current.addEventListener("scroll", handleScroll);
+    if (textAreaRef.current) {
+      textAreaRef.current.addEventListener("scroll", handleScroll);
+    }
     return () => {
       textAreaRef?.current?.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    if (highlightRef.current && start !== undefined && end !== undefined) {
+      const lines = text.split("\n");
+      const lineHeight = parseFloat(
+        getComputedStyle(highlightRef.current).lineHeight || "1.5"
+      );
+      const scrollToPosition = Math.max(0, start * lineHeight);
+      highlightRef.current.scrollTop = scrollToPosition;
+      if (textAreaRef.current) {
+        textAreaRef.current.scrollTop = scrollToPosition;
+      }
+    }
+  }, [start, end, text]);
 
   const renderHighlightedText = () => {
     return text.split("\n").map((line, index) => (

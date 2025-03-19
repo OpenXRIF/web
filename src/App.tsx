@@ -7,6 +7,12 @@ import { Executor } from "./Executor";
 import GridDrawer from "./GridDrawer";
 import SpeechBubble from "./SpeechBubble";
 import { RobotGrid } from "./RobotGrid";
+import { GRID_X, GRID_Y } from "./E7";
+import { Legend } from "./Legend";
+
+// 3400 x 2200
+// crop -440, -270
+// 148 x 97
 
 export function App() {
   return (
@@ -26,15 +32,18 @@ export function App() {
             </h1>
           </div>
           {/* <p>This is a demo project for OpenXRIF.</p> */}
-          <div className="grid grid-cols-2 gap-4 mt-8">
-            <MessageBox />
+          <div className="grid grid-cols-[30%_70%] gap-8">
+            <div>
+              <MessageBox />
+            </div>
             <div>
               <div className="flex flex-row">
                 <Executor />
                 <SpeechBubble />
               </div>
-              <RobotGrid rows={30} cols={30} />
+              <RobotGrid rows={GRID_Y} cols={GRID_X} />
               {/* <GridDrawer /> */}
+              <Legend />
             </div>
           </div>
         </CardContent>
