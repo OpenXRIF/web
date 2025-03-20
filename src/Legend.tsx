@@ -4,14 +4,10 @@ export const Legend = () => {
   const data = LEGEND_MAP;
 
   return (
-    <div>
-      <h2>Legend</h2>
-      <p>Legend content</p>
+    <div className="text-left gap-0 text-sm">
       {data.entries().map(([key, value]) => (
-        <div key={key}>
-          <span>{key}</span>
-          -
-          <span>{value}</span>
+        <div key={key} className="flex">
+          <span className="w-5 text-blue-500">{key}</span><span>{value}</span>
         </div>
       ))}
     </div>
