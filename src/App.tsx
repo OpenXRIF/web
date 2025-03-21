@@ -1,5 +1,5 @@
 import "./index.css";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 import logo from "./logo.svg";
 import { MessageBox } from "./MessageBox";
@@ -41,9 +41,11 @@ export function App() {
                 <Executor />
                 <SpeechBubble />
               </div>
-              <RobotGrid rows={GRID_Y} cols={GRID_X} />
-              {/* <GridDrawer /> */}
-              <Legend />
+              <div className="flex flex-row gap-2">
+                <RobotGrid rows={GRID_Y} cols={GRID_X} />
+                {/* <GridDrawer /> */}
+                <Legend />
+              </div>
             </div>
           </div>
         </CardContent>

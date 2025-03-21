@@ -122,12 +122,6 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // // Background
-    // ctx.fillStyle = "#fff";
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
-    // ctx.fillStyle = "#666";
-    // ctx.fillRect(0.5, 0.5, canvas.width - 1, canvas.height - 1);
-
     ctx.font = "12px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "bottom";
@@ -194,13 +188,13 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
     }
   }, [robotPosition, rows, cols, squareSize, walls]);
 
-  const exportWalls = () => {
-    console.log(JSON.stringify(walls.keys().toArray()));
-  };
+  // const exportWalls = () => {
+  //   console.log(JSON.stringify(walls.keys().toArray()));
+  // };
 
   return (
     <>
-      <button onClick={exportWalls}>Export Walls</button>
+      {/* <button onClick={exportWalls}>Export Walls</button> */}
       <canvas
         ref={canvasRef}
         onMouseDown={handleMouseDown}
@@ -210,6 +204,5 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
         className="rounded-md"
       />
     </>
-    // <img src={imagepath} alt="E7" className="w-full h-auto" />
   );
 };
