@@ -7,6 +7,7 @@ import {
   IMAGE_START_Y,
   img,
 } from "./E7";
+import { E7_WALLS } from "./walls";
 
 type Waypoint = {
   name: string;
@@ -33,7 +34,7 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
   const [robotPosition, setRobotPosition] = useState({ x: 10, y: 10 });
   const [isDrawing, setIsDrawing] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
-  const [walls, setDrawnCells] = useState<Set<string>>(new Set());
+  const [walls, setDrawnCells] = useState<Set<string>>(new Set(E7_WALLS));
   const [waypoints, setWaypoints] = useState<Map<string, string>>(
     new Map(e7_mapped)
   );
@@ -192,15 +193,22 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
     }
   }, [robotPosition, rows, cols, squareSize, walls]);
 
+  const exportWalls = () => {
+    console.log(JSON.stringify(walls.keys().toArray()));
+  };
+
   return (
-    <canvas
-      ref={canvasRef}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp} // Stop drawing if the mouse leaves the canvas
-      className="rounded-md"
-    />
+    <>
+      <button onClick={exportWalls}>Export Walls</button>
+      <canvas
+        ref={canvasRef}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp} // Stop drawing if the mouse leaves the canvas
+        className="rounded-md"
+      />
+    </>
     // <img src={imagepath} alt="E7" className="w-full h-auto" />
   );
 };
