@@ -1,3 +1,4 @@
+// @ts-expect-error Bun handles asset import
 import imagepath from "./E7.png";
 
 const E7_WAYPOINTS: [string, number, number][] = [
@@ -47,9 +48,9 @@ export const LEGEND_MAP = new Map([
 ]);
 
 export const ROBOT_START = {
-  x: 50, 
-  y: 40
-}
+  x: 50,
+  y: 40,
+};
 
 const IMAGE_X = 3400;
 const IMAGE_Y = 2200;
