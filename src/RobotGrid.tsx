@@ -6,6 +6,7 @@ import {
   IMAGE_START_X,
   IMAGE_START_Y,
   img,
+  ROBOT_START,
 } from "./E7";
 import { E7_WALLS } from "./walls";
 
@@ -31,7 +32,7 @@ const GRID_WIDTH = 700;
 export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const [robotPosition, setRobotPosition] = useState({ x: 10, y: 10 });
+  const [robotPosition, setRobotPosition] = useState(ROBOT_START);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
   const [walls, setDrawnCells] = useState<Set<string>>(new Set(E7_WALLS));

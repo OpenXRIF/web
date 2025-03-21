@@ -46,6 +46,11 @@ export const LEGEND_MAP = new Map([
   ["T", "C&D - Pastry Area"],
 ]);
 
+export const ROBOT_START = {
+  x: 50, 
+  y: 40
+}
+
 const IMAGE_X = 3400;
 const IMAGE_Y = 2200;
 
