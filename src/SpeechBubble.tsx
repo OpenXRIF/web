@@ -7,15 +7,15 @@ const SpeechBubble = () => {
 
   if (!action) {
     return (
-      <div className="bg-card p-4 rounded-xl">
+      <div className="p-4 rounded-xl">
         <p>Finished executing XRIF.</p>
       </div>
-    )
+    );
   }
 
   if (action?.action === "speak") {
     return (
-      <div className="bg-card p-4 rounded-xl">
+      <div className="p-4 rounded-xl">
         <p>Robot says: {action.input}</p>
       </div>
     );
@@ -23,7 +23,7 @@ const SpeechBubble = () => {
 
   if (action?.action === "wait") {
     return (
-      <div className="bg-card p-4 rounded-xl">
+      <div className="p-4 rounded-xl">
         <p>Waiting for {action.input} seconds...</p>
       </div>
     );
@@ -31,7 +31,7 @@ const SpeechBubble = () => {
 
   if (action?.action === "navigate") {
     return (
-      <div className="bg-card p-4 rounded-xl">
+      <div className="p-4 rounded-xl">
         <p>Navigating to {action.input.name}...</p>
       </div>
     );
