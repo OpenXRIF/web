@@ -19,6 +19,7 @@
     "bun-plugin-tailwind": "^0.0.14",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cohere-ai": "^7.16.0",
     "lucide-react": "^0.475.0",
     "react": "^19",
     "react-dom": "^19",
