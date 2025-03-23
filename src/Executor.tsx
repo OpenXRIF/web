@@ -4,7 +4,7 @@ import { useXrifStore } from "./store";
 export const Executor = () => {
   const executeAction = useXrifStore((state) => state.executeAction);
   const actionExists = useXrifStore(
-    (state) => !!state.xrifValue?.actions[state.highlightedAction]
+    (state) => !!state.xrifValue?.actions?.[state.highlightedAction]
   );
   return (
     <div className="p-2">
