@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-    convertCoordinate,
+  convertCoordinate,
   E7_MAPPED,
   IMAGE_CROPPED_X,
   IMAGE_CROPPED_Y,
@@ -35,7 +35,9 @@ const GRID_WIDTH = 700;
 export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const currentAction = useXrifStore((state) => state.xrifValue?.actions?.[state.highlightedAction]);
+  const currentAction = useXrifStore(
+    (state) => state.xrifValue?.actions?.[state.highlightedAction]
+  );
 
   const [robotPosition, setRobotPosition] = useState(ROBOT_START);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -46,6 +48,9 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
   );
   const [path, setPath] = useState<Coordinate[]>([]);
 
+  const queuedPath = useRef<Coordinate[]>(null);
+  const robotNavPosition = useRef<Coordinate>(ROBOT_START);
+
   const pathSet = useMemo(
     () => new Set(path.map((p) => `${p.x},${p.y}`)),
     [path]
@@ -55,30 +60,54 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
 
   useEffect(() => {
     if (currentAction?.action == "navigate") {
-        const {x: x1, y: y1} = robotPosition;
-        const {x, y} = currentAction.input;
+      const { x: x1, y: y1 } = robotNavPosition.current;
+      const { x, y } = currentAction.input;
 
-        const {x: x2, y: y2} = convertCoordinate(x, y);
+      const { x: x2, y: y2 } = convertCoordinate(x, y);
 
-        console.log("Attempting to navigate:", x1, y1, "to", x2, y2);
+      console.log("Attempting to navigate:", x1, y1, "to", x2, y2);
 
-        // const newPath = navigate(x1, y1, x2, y2);
-        const newPath = createPath(x1, y1, x2, y2, walls);
+      const newPath = createPath(x1, y1, x2, y2, walls);
+
+      console.log("Setting path: ", newPath);
+
+      // Check if we are done animating
+      if (queuedPath.current == null) {
         setPath(newPath);
-        console.log("Setting path: ", newPath);
+      }
 
-        return () => {
-            console.log("cleaning up")
-            newPath.forEach((coord, i) => {
-                setTimeout(() => {
-                    setRobotPosition(coord)
-                    setPath(newPath.slice(i, undefined))
-                }, i*35);
-            })
-            // setPath([]);
-        }
+      // Queue path to be animated when we move to next action
+      queuedPath.current = newPath;
+      // Set robot position to goal to prepare for next navigation action
+      robotNavPosition.current = { x: x2, y: y2 };
+
+      // Updates the rendered location over time, following the path
+      const animate = async () => {
+        const frameTime = 35;
+
+        // Animate robot and path
+        newPath.forEach((coord, i) => {
+          setTimeout(() => {
+            setRobotPosition(coord);
+            setPath(newPath.slice(i, undefined));
+          }, i * frameTime);
+        });
+
+        // Show next path when done if one is queued
+        setTimeout(() => {
+          setPath(queuedPath.current ?? []);
+        }, newPath.length * frameTime);
+      };
+
+      return () => {
+        // Run animation when we move to the next action
+        animate();
+      };
+    } else {
+      // Reset queue when we are not navigating
+      queuedPath.current = null;
     }
-  }, [walls, currentAction, robotPosition]);
+  }, [walls, currentAction]);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     // Get type of cell
@@ -199,20 +228,20 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
             squareSize - 1
           );
         } else if (walls.has(`${x},${y}`)) {
-          ctx.fillStyle = "#F00"; // Highlight drawn cells
-          ctx.fillRect(
-            x * squareSize + 0.5,
-            y * squareSize + 0.5,
-            squareSize - 1,
-            squareSize - 1
-          );
+          // ctx.fillStyle = "#F00"; // Highlight drawn cells
+          // ctx.fillRect(
+          //   x * squareSize + 0.5,
+          //   y * squareSize + 0.5,
+          //   squareSize - 1,
+          //   squareSize - 1
+          // );
         }
 
         if (y === robotPosition.y && x === robotPosition.x) {
           ctx.fillStyle = "#F0F"; // Highlight robot position
           ctx.fillRect(
-            x * (squareSize) - squareSize / 2,
-            y * (squareSize) - squareSize / 2,
+            x * squareSize - squareSize / 2,
+            y * squareSize - squareSize / 2,
             squareSize * 2,
             squareSize * 2
           );
