@@ -16,7 +16,9 @@ const SpeechBubble = () => {
   if (action?.action === "speak") {
     return (
       <div className="p-4 rounded-xl">
-        <p>Robot says: {action.input}</p>
+        <p>
+          Robot says: <span className="text-pink-300">{action.input}</span>
+        </p>
       </div>
     );
   }
@@ -32,7 +34,11 @@ const SpeechBubble = () => {
   if (action?.action === "navigate") {
     return (
       <div className="p-4 rounded-xl">
-        <p>Navigating to {action.input.name}...</p>
+        <p>
+          Navigating to{" "}
+          <span className="text-blue-500">{action.input.name}</span>
+          ...
+        </p>
       </div>
     );
   }
