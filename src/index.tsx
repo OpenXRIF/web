@@ -177,7 +177,7 @@ Ensure there are no trailing commas and all JSON rules are followed.
   {
     "name": "North Entrance",
     "x": 739,
-    "y": 1250,
+    "y": 1225,
     "floor": 1,
     "keywords": ["front", "engineering sign", "bus stop", "1831"]
   },
