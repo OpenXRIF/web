@@ -97,33 +97,33 @@ Ensure there are no trailing commas and all JSON rules are followed.
     "keywords": ["robotics", "1339", "robot", "drone"]
   },
   {
-    "name": "Room 1427 - Ideas Clinic",
+    "name": "Ideas Clinic",
     "x": 2065,
     "y": 1008,
     "floor": 1,
-    "keywords": ["workshop", "event", "big room", "machines"]
+    "keywords": ["workshop", "event", "big room", "machines", "1427"]
   },
   {
-    "name": "Room 1416 - C&D Main Entrance",
+    "name": "C&D Main Entrance",
     "x": 1965,
     "y": 1132,
     "floor": 1,
-    "keywords": ["coffee and donuts", "cafe", "coffee shop", "store", "snacks", "drinks"],
+    "keywords": ["coffee and donuts", "cafe", "coffee shop", "store", "snacks", "drinks", "1416"],
     "aliases": ["CnD", "C and D"]
   },
   {
-    "name": "Room 1419 - Novelties",
+    "name": "Novelties",
     "x": 1935,
     "y": 1006,
     "floor": 1,
-    "keywords": ["engsoc", "engineering society", "merch", "merchandise", "store", "patches", "clothes"]
+    "keywords": ["engsoc", "engineering society", "merch", "merchandise", "store", "patches", "clothes", "1419"]
   },
   {
-    "name": "Room 1414 - Microwaves",
+    "name": "Microwaves",
     "x": 1817,
     "y": 1334,
     "floor": 1,
-    "keywords": ["food", "heating", "eating", "lunch"]
+    "keywords": ["food", "heating", "eating", "1414", "lunch"]
   },
   {
     "name": "Elevators",
@@ -133,67 +133,67 @@ Ensure there are no trailing commas and all JSON rules are followed.
     "keywords": ["floor", "1841", "1842", "1843"]
   },
   {
-    "name": "Room 1302 - Silent Study",
+    "name": "Silent Study",
     "x": 1443,
     "y": 572,
     "floor": 1,
-    "keywords": ["study", "quiet", "studyspace", "work", "independant"]
+    "keywords": ["study", "quiet", "studyspace", "work", "1302", "independant"]
   },
   {
-    "name": "Room 1918 - Shower A",
+    "name": "Shower A",
     "x": 951,
     "y": 616,
     "floor": 1,
-    "keywords": ["clean", "wash"]
+    "keywords": ["clean", "wash", "1918"]
   },
   {
-    "name": "Room 1919 - Shower B",
+    "name": "Shower B",
     "x": 827,
     "y": 610,
     "floor": 1,
-    "keywords": ["clean", "wash"]
+    "keywords": ["clean", "wash", "1919"]
   },
   {
-    "name": "Room 1401 - Assembly Room",
+    "name": "Assembly Room",
     "x": 1865,
     "y": 434,
     "floor": 1,
-    "keywords": ["workspace", "machines", "repair", "work", "build", "manufacture", "assemble"]
+    "keywords": ["workspace", "machines", "repair", "work", "build", "manufacture", "assemble", "1401"]
   },
   {
-    "name": "Room 1834 - E5 Entrance",
+    "name": "E5 Entrance",
     "x": 1535,
     "y": 1535,
     "floor": 1,
-    "keywords": ["e5", "engineering 5", "design teams", "machine shop", "student shop"]
+    "keywords": ["e5", "engineering 5", "design teams", "machine shop", "student shop", "1834"]
   },
   {
-    "name": "Room 1348 - Temporary Booth",
+    "name": "Temporary Booth",
     "x": 1425,
     "y": 1229,
     "floor": 1,
-    "keywords": ["engsoc", "engineering society", "gradcomm", "pizza", "foyer", "booth"]
+    "keywords": ["engsoc", "engineering society", "gradcomm", "pizza", "foyer", "booth", "1348"]
   },
   {
-    "name": "Room 1831 - North Entrance",
+    "name": "North Entrance",
     "x": 739,
     "y": 1250,
     "floor": 1,
-    "keywords": ["front", "engineering sign", "bus stop"]
+    "keywords": ["front", "engineering sign", "bus stop", "1831"]
   },
   {
-    "name": "Room 1851 - South Entrance",
+    "name": "South Entrance",
     "x": 2243,
     "y": 1083,
     "floor": 1,
-    "keywords": ["back", "plaza"]
+    "keywords": ["back", "plaza", "1851"]
   },
   {
-    "name": "Room 1821 - East Entrance",
+    "name": "East Entrance",
     "x": 1611,
     "y": 413,
     "floor": 1,
-    "keywords": ["side", "e6", "engineering 6", "philip street"]
+    "keywords": ["side", "e6", "engineering 6", "philip street", "1821"]
   },
   {
     "name": "C&D - Coffee Area",
