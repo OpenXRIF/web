@@ -11,6 +11,7 @@ import {
 } from "./E7";
 import { E7_WALLS } from "./walls";
 import { useXrifStore } from "./store";
+import { createPath } from "./lib/utils";
 
 type Waypoint = {
   name: string;
@@ -23,7 +24,7 @@ type RobotGridProps = {
   cols: number;
 };
 
-type Coordinate = {
+export type Coordinate = {
   x: number;
   y: number;
 };
@@ -52,68 +53,6 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
 
   const squareSize = Math.min(GRID_HEIGHT / rows, GRID_WIDTH / cols);
 
-  const navigate = useCallback((x1: number, y1: number, x2: number, y2: number) => {
-    const start = { x: x1, y: y1 };
-    const goal = { x: x2, y: y2 };
-
-    const heuristic = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
-    
-    const neighbors = (node) => {
-      const directions = [
-        { x: 1, y: 0 }, { x: -1, y: 0 }, { x: 0, y: 1 }, { x: 0, y: -1 }
-      ];
-      return directions
-        .map((dir) => ({ x: node.x + dir.x, y: node.y + dir.y }))
-        .filter(
-          (n) =>
-            n.x >= 0 &&
-            n.y >= 0 &&
-            n.x < cols &&
-            n.y < rows &&
-            !walls.has(`${n.x},${n.y}`)
-        );
-    };
-    
-    const openSet = [start];
-    const cameFrom = new Map();
-    const gScore = new Map();
-    const fScore = new Map();
-
-    gScore.set(`${start.x},${start.y}`, 0);
-    fScore.set(`${start.x},${start.y}`, heuristic(start, goal));
-
-    while (openSet.length > 0) {
-      openSet.sort((a, b) => fScore.get(`${a.x},${a.y}`) - fScore.get(`${b.x},${b.y}`));
-      const current = openSet.shift();
-
-      if (current.x === goal.x && current.y === goal.y) {
-        let path: Coordinate[] = [];
-        let temp = `${goal.x},${goal.y}`;
-        while (cameFrom.has(temp)) {
-          const [px, py] = temp.split(',').map(Number);
-          path.push({ x: px, y: py });
-          temp = cameFrom.get(temp);
-        }
-        path.reverse();
-        return path;
-      }
-
-      for (const neighbor of neighbors(current)) {
-        const tentativeGScore = gScore.get(`${current.x},${current.y}`) + 1;
-        const neighborKey = `${neighbor.x},${neighbor.y}`;
-        if (!gScore.has(neighborKey) || tentativeGScore < gScore.get(neighborKey)) {
-          cameFrom.set(neighborKey, `${current.x},${current.y}`);
-          gScore.set(neighborKey, tentativeGScore);
-          fScore.set(neighborKey, tentativeGScore + heuristic(neighbor, goal));
-          if (!openSet.some((n) => n.x === neighbor.x && n.y === neighbor.y)) {
-            openSet.push(neighbor);
-          }
-        }
-      }
-    }
-    return [];
-  }, [walls]);
-
   useEffect(() => {
     if (currentAction?.action == "navigate") {
         const {x: x1, y: y1} = robotPosition;
@@ -123,7 +62,8 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
 
         console.log("Attempting to navigate:", x1, y1, "to", x2, y2);
 
-        const newPath = navigate(x1, y1, x2, y2);
+        // const newPath = navigate(x1, y1, x2, y2);
+        const newPath = createPath(x1, y1, x2, y2, walls);
         setPath(newPath);
         console.log("Setting path: ", newPath);
 
@@ -138,7 +78,7 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
             // setPath([]);
         }
     }
-  }, [navigate, currentAction, robotPosition]);
+  }, [walls, currentAction, robotPosition]);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     // Get type of cell
@@ -259,13 +199,13 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
             squareSize - 1
           );
         } else if (walls.has(`${x},${y}`)) {
-        //   ctx.fillStyle = "#F00"; // Highlight drawn cells
-        //   ctx.fillRect(
-        //     x * squareSize + 0.5,
-        //     y * squareSize + 0.5,
-        //     squareSize - 1,
-        //     squareSize - 1
-        //   );
+          ctx.fillStyle = "#F00"; // Highlight drawn cells
+          ctx.fillRect(
+            x * squareSize + 0.5,
+            y * squareSize + 0.5,
+            squareSize - 1,
+            squareSize - 1
+          );
         }
 
         if (y === robotPosition.y && x === robotPosition.x) {

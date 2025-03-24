@@ -1,3 +1,4 @@
+import type { Coordinate } from "@/RobotGrid";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -109,3 +110,65 @@ export const getHighlightedLines = (obj, path: string) => {
     //   const { start, end } = linesFromKey(lines, path);
     return { start: globalStart, end: globalEnd, lines };
 };
+export function createPath(x1: number, y1: number, x2: number, y2: number, walls: Set<string>) {
+  const start = { x: x1, y: y1 };
+  const goal = { x: x2, y: y2 };
+
+  const heuristic = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+
+  const neighbors = (node) => {
+    const directions = [
+      { x: 1, y: 0 }, { x: -1, y: 0 }, { x: 0, y: 1 }, { x: 0, y: -1 }
+    ];
+    return directions
+      .map((dir) => ({ x: node.x + dir.x, y: node.y + dir.y }))
+      .filter(
+        (n) =>
+          // n.x >= 0 &&
+          // n.y >= 0 &&
+          // n.x < cols &&
+          // n.y < rows &&
+          !walls.has(`${n.x},${n.y}`)
+      );
+  };
+
+  const openSet = [start];
+  const cameFrom = new Map();
+  const gScore = new Map();
+  const fScore = new Map();
+
+  gScore.set(`${start.x},${start.y}`, 0);
+  fScore.set(`${start.x},${start.y}`, heuristic(start, goal));
+
+  while (openSet.length > 0) {
+    openSet.sort((a, b) => fScore.get(`${a.x},${a.y}`) - fScore.get(`${b.x},${b.y}`));
+    const current = openSet.shift();
+
+    if (current.x === goal.x && current.y === goal.y) {
+      let path: Coordinate[] = [];
+      let temp = `${goal.x},${goal.y}`;
+      while (cameFrom.has(temp)) {
+        const [px, py] = temp.split(',').map(Number);
+        path.push({ x: px, y: py });
+        temp = cameFrom.get(temp);
+      }
+      path.reverse();
+      return path;
+    }
+
+    for (const neighbor of neighbors(current)) {
+      const tentativeGScore = gScore.get(`${current.x},${current.y}`) + 1;
+      const neighborKey = `${neighbor.x},${neighbor.y}`;
+      if (!gScore.has(neighborKey) || tentativeGScore < gScore.get(neighborKey)) {
+        cameFrom.set(neighborKey, `${current.x},${current.y}`);
+        gScore.set(neighborKey, tentativeGScore);
+        fScore.set(neighborKey, tentativeGScore + heuristic(neighbor, goal));
+        if (!openSet.some((n) => n.x === neighbor.x && n.y === neighbor.y)) {
+          openSet.push(neighbor);
+        }
+      }
+    }
+  }
+  return [];
+}
+;
