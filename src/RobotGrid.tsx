@@ -11,7 +11,7 @@ import {
 } from "./E7";
 import { E7_WALLS } from "./walls";
 import { useXrifStore } from "./store";
-import { createPath } from "./lib/utils";
+import { type Coordinate, createPath } from "./lib/utils";
 
 type Waypoint = {
   name: string;
@@ -22,11 +22,6 @@ type Waypoint = {
 type RobotGridProps = {
   rows: number;
   cols: number;
-};
-
-export type Coordinate = {
-  x: number;
-  y: number;
 };
 
 const GRID_HEIGHT = 700;
@@ -42,19 +37,12 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
   const [robotPosition, setRobotPosition] = useState(ROBOT_START);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
-  const [walls, setDrawnCells] = useState<Set<string>>(new Set(E7_WALLS));
-  const [waypoints, setWaypoints] = useState<Map<string, string>>(
-    new Map(E7_MAPPED)
-  );
+  const [walls, setWalls] = useState<Set<string>>(new Set(E7_WALLS));
+  const [waypoints, setWaypoints] = useState(E7_MAPPED);
   const [path, setPath] = useState<Coordinate[]>([]);
 
   const queuedPath = useRef<Coordinate[]>(null);
   const robotNavPosition = useRef<Coordinate>(ROBOT_START);
-
-  const pathSet = useMemo(
-    () => new Set(path.map((p) => `${p.x},${p.y}`)),
-    [path]
-  );
 
   const squareSize = Math.min(GRID_HEIGHT / rows, GRID_WIDTH / cols);
 
@@ -149,7 +137,7 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
     const cellKey = `${x},${y}`;
     if (!walls.has(cellKey)) {
       // Add wall if drawing and cell is not a wall
-      setDrawnCells((prev) => new Set(prev).add(cellKey));
+      setWalls((prev) => new Set(prev).add(cellKey));
     }
   };
 
@@ -164,7 +152,7 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
     const cellKey = `${x},${y}`;
     if (walls.has(cellKey)) {
       // Remove wall if removing and cell is a wall
-      setDrawnCells((prev) => {
+      setWalls((prev) => {
         const newSet = new Set(prev);
         newSet.delete(cellKey);
         return newSet;
@@ -201,54 +189,54 @@ export const RobotGrid = ({ rows, cols }: RobotGridProps) => {
       canvas.height
     );
 
-    // Draw grid
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
-        // Select color based on cell type
-        const waypoint = waypoints.get(`${x},${y}`);
-        if (waypoint) {
-          ctx.fillStyle = "#00F"; // Highlight path cells
-          ctx.fillRect(
-            x * squareSize + 0.5,
-            y * squareSize + 0.5,
-            squareSize - 1,
-            squareSize - 1
-          );
-          ctx.fillText(
-            waypoint,
-            x * squareSize + 0.5 + 0.5 * squareSize,
-            y * squareSize
-          );
-        } else if (pathSet.has(`${x},${y}`)) {
-          ctx.fillStyle = "#0F0"; // Highlight path cells
-          ctx.fillRect(
-            x * squareSize + 0.5,
-            y * squareSize + 0.5,
-            squareSize - 1,
-            squareSize - 1
-          );
-        } else if (walls.has(`${x},${y}`)) {
-          // ctx.fillStyle = "#F00"; // Highlight drawn cells
-          // ctx.fillRect(
-          //   x * squareSize + 0.5,
-          //   y * squareSize + 0.5,
-          //   squareSize - 1,
-          //   squareSize - 1
-          // );
-        }
+    // Draw walls
+    // for (let y = 0; y < rows; y++) {
+    //   for (let x = 0; x < cols; x++) {
+    //     if (walls.has(`${x},${y}`)) {
+    //       ctx.fillStyle = "#F00"; // Highlight drawn cells
+    //       ctx.fillRect(
+    //         x * squareSize + 0.5,
+    //         y * squareSize + 0.5,
+    //         squareSize - 1,
+    //         squareSize - 1
+    //       );
+    //     }
+    //   }
+    // }
 
-        if (y === robotPosition.y && x === robotPosition.x) {
-          ctx.fillStyle = "#F0F"; // Highlight robot position
-          ctx.fillRect(
-            x * squareSize - squareSize / 2,
-            y * squareSize - squareSize / 2,
-            squareSize * 2,
-            squareSize * 2
-          );
-        }
-      }
-    }
-  }, [robotPosition, rows, cols, squareSize, walls, pathSet]);
+    ctx.fillStyle = "#0F0"; // Highlight path cells
+    path.forEach(({ x, y }) => {
+      ctx.fillRect(
+        x * squareSize + 0.5,
+        y * squareSize + 0.5,
+        squareSize - 1,
+        squareSize - 1
+      );
+    });
+
+    ctx.fillStyle = "#F0F"; // Highlight robot position
+    ctx.fillRect(
+      robotPosition.x * squareSize - squareSize / 2,
+      robotPosition.y * squareSize - squareSize / 2,
+      squareSize * 2,
+      squareSize * 2
+    );
+
+    ctx.fillStyle = "#00F"; // Highlight waypoint cells
+    waypoints.forEach(({ x, y, name }) => {
+      ctx.fillRect(
+        x * squareSize + 0.5,
+        y * squareSize + 0.5,
+        squareSize - 1,
+        squareSize - 1
+      );
+      ctx.fillText(
+        name,
+        x * squareSize + 0.5 + 0.5 * squareSize,
+        y * squareSize
+      );
+    });
+  }, [robotPosition, rows, cols, squareSize, walls, path]);
 
   // const exportWalls = () => {
   //   console.log(JSON.stringify(walls.keys().toArray()));

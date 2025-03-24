@@ -1,7 +1,8 @@
 // @ts-expect-error Bun handles asset import
 import imagepath from "./E7.png";
+import type { Coordinate } from "./lib/utils";
 
-const E7_WAYPOINTS: [string, number, number][] = [
+export const E7_WAYPOINTS: [string, number, number][] = [
   ["A", 1339, 906],
   ["B", 2065, 1008],
   ["C", 1965, 1132],
@@ -71,15 +72,6 @@ const SCALE = 20;
 export const GRID_X = Math.round(IMAGE_CROPPED_X / SCALE);
 export const GRID_Y = Math.round(IMAGE_CROPPED_Y / SCALE);
 
-export const E7_MAPPED: [string, string][] = E7_WAYPOINTS.map(
-  ([name, x, y]) => [
-    `${Math.round((x - CROP_LEFT) / SCALE)},${Math.round(
-      (y - CROP_TOP) / SCALE
-    )}`,
-    name,
-  ]
-);
-
 export const img = new Image();
 img.onload = () => {
   console.log("Image loaded");
@@ -87,7 +79,15 @@ img.onload = () => {
 img.src = imagepath;
 
 export const convertCoordinate = (x: number, y: number) => {
-    return { x: Math.round((x - CROP_LEFT) / SCALE), y: Math.round(
-      (y - CROP_TOP) / SCALE
-    )};
-}
+  return {
+    x: Math.round((x - CROP_LEFT) / SCALE),
+    y: Math.round((y - CROP_TOP) / SCALE),
+  };
+};
+
+export const E7_MAPPED: (Coordinate & { name: string })[] = E7_WAYPOINTS.map(
+  ([name, x, y]) => ({
+    ...convertCoordinate(x, y),
+    name,
+  })
+);

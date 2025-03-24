@@ -1,4 +1,3 @@
-import type { Coordinate } from "@/RobotGrid";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -171,4 +170,8 @@ export function createPath(x1: number, y1: number, x2: number, y2: number, walls
   }
   return [];
 }
-;
+;export type Coordinate = {
+  x: number;
+  y: number;
+};
+
