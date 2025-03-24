@@ -4,8 +4,8 @@ const xrif_example1 = {
       action: "navigate",
       input: {
         name: "Room 2241",
-        x: 100,
-        y: 100,
+        x: 1817,
+        y: 1334,
         floor: 2,
         keywords: ["office", "Zach"],
       },
@@ -22,8 +22,8 @@ const xrif_example1 = {
       action: "navigate",
       input: {
         name: "Room 1427 - Ideas Clinic",
-        x: 25,
-        y: 75,
+        x: 2065,
+        y: 1008,
         floor: 1,
         keywords: ["classroom", "workshop", "lab"],
       },
