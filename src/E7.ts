@@ -48,8 +48,8 @@ export const LEGEND_MAP = new Map([
 ]);
 
 export const ROBOT_START = {
-  x: 50,
-  y: 40,
+  x: 42,
+  y: 34,
 };
 
 const IMAGE_X = 3400;
@@ -71,7 +71,7 @@ const SCALE = 20;
 export const GRID_X = Math.round(IMAGE_CROPPED_X / SCALE);
 export const GRID_Y = Math.round(IMAGE_CROPPED_Y / SCALE);
 
-export const e7_mapped: [string, string][] = E7_WAYPOINTS.map(
+export const E7_MAPPED: [string, string][] = E7_WAYPOINTS.map(
   ([name, x, y]) => [
     `${Math.round((x - CROP_LEFT) / SCALE)},${Math.round(
       (y - CROP_TOP) / SCALE
@@ -85,3 +85,9 @@ img.onload = () => {
   console.log("Image loaded");
 };
 img.src = imagepath;
+
+export const convertCoordinate = (x: number, y: number) => {
+    return { x: Math.round((x - CROP_LEFT) / SCALE), y: Math.round(
+      (y - CROP_TOP) / SCALE
+    )};
+}
